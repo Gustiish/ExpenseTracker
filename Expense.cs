@@ -8,16 +8,16 @@ namespace ExpenseTracker
 {
     internal class Expense
     {
-        private int id { get; set; } = 0;
+        private static int id { get; set; }
         public int Id
         {
             get
             {
-                return Id;
+                return id;
             }
             private set
             {
-                id++;
+
                 Id = id;
             }
         }
@@ -31,30 +31,40 @@ namespace ExpenseTracker
             }
             set
             {
-                if (amount + value > 0)
+                if (amount + value < 0)
                 {
-                    amount = value;
+                    Console.WriteLine("Amount cannot be negative");
                 }
                 else
                 {
-                    Console.WriteLine("Amount cannot be negative");
+                    amount = value;
                 }
             }
         }
         public string Description { get; set; }
 
 
-        private DateTime createdAt { get; set; }
-        public DateTime CreatedAt
+
+        public DateTime CreatedAt { get; set; }
+
+
+        public Expense()
         {
-            get
+            IncrementId();
+            CreatedAt = DateTime.Now;
+            if (amount == 0)
             {
-                return createdAt;
-            }
-            private set
-            {
-                createdAt = DateTime.Now;
+                throw new ArgumentException("Expense not created", nameof(amount));
             }
         }
+
+        private void IncrementId()
+        {
+            id++;
+        }
+
+
+
+
     }
 }
