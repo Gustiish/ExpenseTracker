@@ -12,10 +12,10 @@ namespace ExpenseTracker
     {
         public Input Input { get; set; } = new Input();
         public Output Output { get; set; } = new Output();
-        
+
         public List<Expense> Expenses { get; set; } = new List<Expense>();
         public bool IsOn { get; set; } = true;
-        private readonly string Path = @"C:\Users\isakb\source\repos\ExpenseTracker\JsonFiles";
+        private readonly string filePath = @"C:\Users\Isak Bäckström\JsonDokument\ExpenseTracker\Expenses.json";
 
 
         public void CheckCommandInput(string[] args)
@@ -100,11 +100,7 @@ namespace ExpenseTracker
 
             try
             {
-                Expense expense = new Expense()
-                {
-                    Description = description,
-                    Amount = amountInt
-                };
+                Expense expense = new Expense(amountInt, description);
 
                 Expenses.Add(expense);
                 Console.WriteLine($"Expense added succesfully! (Id: {expense.Id})");
@@ -113,7 +109,7 @@ namespace ExpenseTracker
             {
                 Console.WriteLine($"Expense not created {ex.ToString()}");
             }
-            
+
         }
 
         public void ListExpenses()
@@ -159,8 +155,19 @@ namespace ExpenseTracker
 
         public void SaveToJson()
         {
-            string json = JsonSerializer.Serialize(Expenses, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(Path, json);
+            try
+            {
+                string json = JsonSerializer.Serialize(Expenses, new JsonSerializerOptions { WriteIndented = true });
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+                File.WriteAllText(filePath, json);
+                Console.WriteLine(json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed to save to json");
+                Console.WriteLine(ex.ToString());
+            }
+
         }
 
 

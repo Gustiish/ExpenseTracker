@@ -48,14 +48,17 @@ namespace ExpenseTracker
         public DateTime CreatedAt { get; set; }
 
 
-        public Expense()
+        public Expense(int amount, string description)
         {
             IncrementId();
             CreatedAt = DateTime.Now;
-            if (amount == 0)
+            Amount = amount;
+            if (Amount == 0)
             {
-                throw new ArgumentException("Expense not created", nameof(amount));
+                throw new ArgumentException("Amount cannot be negative");
             }
+            Description = description;
+          
         }
 
         private void IncrementId()
