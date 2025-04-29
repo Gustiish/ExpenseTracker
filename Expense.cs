@@ -2,25 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ExpenseTracker
 {
     internal class Expense
     {
-        private static int id { get; set; }
-        public int Id
-        {
-            get
-            {
-                return id;
-            }
-            private set
-            {
-
-                Id = id;
-            }
-        }
+       
+        public int Id { get; set; }
 
         private int amount { get; set; }
         public int Amount
@@ -50,7 +40,7 @@ namespace ExpenseTracker
 
         public Expense(int amount, string description)
         {
-            IncrementId();
+          
             CreatedAt = DateTime.Now;
             Amount = amount;
             if (Amount == 0)
@@ -58,13 +48,18 @@ namespace ExpenseTracker
                 throw new ArgumentException("Amount cannot be negative");
             }
             Description = description;
-          
+
         }
 
-        private void IncrementId()
+        public Expense()
         {
-            id++;
+            
         }
+
+
+
+
+
 
 
 
